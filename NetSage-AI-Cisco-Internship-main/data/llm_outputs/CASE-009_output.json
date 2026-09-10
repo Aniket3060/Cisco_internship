@@ -1,0 +1,16 @@
+{
+  "root_cause": "The DHCP relay agent is not configured on the router's subinterface. Because the central DHCP server (10.1.100.10) resides on a different subnet, the broadcast DHCP Discover messages from clients on VLAN 10 are not being forwarded across the Layer 3 boundary.",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "DHCP",
+  "confidence": "High",
+  "evidence": "The configuration output for 'interface GigabitEthernet0/0.10' confirms that the 'ip helper-address' command is missing, preventing the router from relaying DHCP broadcasts as unicast packets to 10.1.100.10.",
+  "next_command": "ping 10.1.100.10",
+  "fix_steps": [
+    "enable",
+    "configure terminal",
+    "interface GigabitEthernet0/0.10",
+    "ip helper-address 10.1.100.10",
+    "end",
+    "write memory"
+  ]
+}

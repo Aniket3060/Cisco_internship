@@ -1,0 +1,17 @@
+{
+  "root_cause": "Access-list 21 applied to VTY lines (access-class 21 in) permits SSH traffic only from subnet 192.168.2.0/24, implicitly denying traffic from Admin PC on subnet 192.168.1.0/24 (192.168.1.100).",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "ACL_Standard_VTY",
+  "confidence": "95%",
+  "evidence": [
+    "line vty 0 4 has 'access-class 21 in' configured",
+    "show access-lists 21 displays '10 permit 192.168.2.0 0.0.0.255', which excludes Admin PC address 192.168.1.100"
+  ],
+  "next_command": "R1# show access-lists 21",
+  "fix_steps": [
+    "configure terminal",
+    "access-list 21 permit 192.168.1.0 0.0.0.255",
+    "end",
+    "write memory"
+  ]
+}

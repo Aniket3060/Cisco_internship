@@ -1,0 +1,15 @@
+{
+  "root_cause": "OSPF Area ID mismatch on the connecting interfaces. R1 Gi0/0 is configured for Area 0, while R2 Gi0/0 is configured for Area 1.",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "OSPF_Adjacency",
+  "confidence": "High",
+  "evidence": "R1's 'show ip ospf interface Gi0/0' output indicates 'Area 0', whereas R2's output indicates 'Area 1'. OSPF requires adjacent neighbors on a common subnet to share the same Area ID.",
+  "next_command": "show ip ospf interface brief",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/0",
+    "ip ospf 1 area 0",
+    "end",
+    "clear ip ospf process"
+  ]
+}

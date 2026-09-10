@@ -1,0 +1,14 @@
+{
+  "root_cause": "WLAN ID 1 (SSID 'Corp-Secure') is administratively disabled on the Wireless LAN Controller (WLC).",
+  "osi_layer": "Layer 2 (Data Link)",
+  "concept_tag": "Wireless_WLC",
+  "confidence": "High",
+  "evidence": "WLC# show wlan summary output indicates WLAN ID 1 with Profile Name 'Corp-Secure' has Status: Disabled.",
+  "next_command": "show wlan 1",
+  "fix_steps": [
+    "Log in to the WLC CLI.",
+    "Enable WLAN ID 1 by issuing the command: config wlan enable 1 (on AireOS) or 'wlan Corp-Secure 1' followed by 'no shutdown' (on IOS-XE / Catalyst 9800).",
+    "Verify the WLAN status has changed to 'Enabled' using 'show wlan summary'.",
+    "Test laptop connectivity to ensure the client can successfully associate with the SSID."
+  ]
+}

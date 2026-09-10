@@ -1,0 +1,18 @@
+{
+  "root_cause": "HSRP Group ID mismatch between R1 (configured for Group 1) and R2 (configured for Group 2). Because the group IDs do not match, the routers do not process each other's HSRP Hello packets, causing both to assume the Active state for their respective groups while claiming the same virtual IP address.",
+  "osi_layer": "Layer 3",
+  "concept_tag": "FHRP_HSRP",
+  "confidence": "High",
+  "evidence": "The 'show standby brief' output on R1 shows 'Grp 1' with State 'Active', while the 'show standby brief' output on R2 shows 'Grp 2' with State 'Active'.",
+  "next_command": "show running-config interface GigabitEthernet0/1",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/1",
+    "no standby 2 ip 192.168.1.254",
+    "no standby 2 priority 100",
+    "standby 1 ip 192.168.1.254",
+    "standby 1 priority 100",
+    "end",
+    "write memory"
+  ]
+}

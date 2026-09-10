@@ -1,0 +1,20 @@
+{
+  "root_cause": "Port security violation on interface FastEthernet0/10 caused by connecting a device with an unauthorized MAC address (0050.7966.6803) while maximum MAC limit (1) was exceeded, putting the port into an err-disabled (secure-shutdown) state.",
+  "osi_layer": "Layer 2",
+  "concept_tag": "Port_Security",
+  "confidence": "High",
+  "evidence": [
+    "Fa0/10 status is err-disabled",
+    "Port Status is Secure-shutdown",
+    "Violation Mode is set to Shutdown",
+    "Last Source Address causing violation: 0050.7966.6803"
+  ],
+  "next_command": "show running-config interface FastEthernet0/10",
+  "fix_steps": [
+    "configure terminal",
+    "interface FastEthernet0/10",
+    "clear port-security sticky interface FastEthernet0/10",
+    "shutdown",
+    "no shutdown"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "root_cause": "The host PC is configured with an incorrect static DNS server IP address (192.168.1.250) instead of the valid DNS server IP address (192.168.1.2), resulting in DNS resolution failure while IP-layer routing remains fully functional.",
+  "osi_layer": "L7 (Application)",
+  "concept_tag": "DNS",
+  "confidence": "High",
+  "evidence": "The host successfully pinged the external IP 8.8.8.8, but the 'nslookup cisco.com' command timed out while attempting to query the incorrect DNS server address 192.168.1.250.",
+  "next_command": "ping 192.168.1.2",
+  "fix_steps": [
+    "configure terminal",
+    "ip dhcp pool LAN_POOL",
+    "dns-server 192.168.1.2",
+    "exit",
+    "interface GigabitEthernet0/1",
+    "description Local LAN Interface",
+    "end",
+    "write memory"
+  ]
+}

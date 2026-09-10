@@ -1,0 +1,23 @@
+{
+  "root_cause": "VLAN 40 is missing from Switch S1's VLAN database, preventing Layer 2 traffic from the WLC's 'guest-interface' from reaching the DHCP server.",
+  "osi_layer": "Layer 2",
+  "concept_tag": "Wireless_VLAN",
+  "confidence": "High",
+  "evidence": [
+    "WLC 'show interface summary' maps 'guest-interface' to VLAN 40 on Port 1.",
+    "S1 'show vlan brief' confirms VLAN 40 does not exist on Switch S1.",
+    "Laptop 'ipconfig' results in 0.0.0.0 due to unforwarded DHCP broadcast packets."
+  ],
+  "next_command": "S1# show interfaces trunk",
+  "fix_steps": [
+    "S1# configure terminal",
+    "S1(config)# vlan 40",
+    "S1(config-vlan)# name Guest-WiFi",
+    "S1(config-vlan)# exit",
+    "S1(config)# interface <interface-connected-to-wlc>",
+    "S1(config-if)# switchport mode trunk",
+    "S1(config-if)# switchport trunk allowed vlan add 40",
+    "S1(config-if)# end",
+    "S1# write memory"
+  ]
+}

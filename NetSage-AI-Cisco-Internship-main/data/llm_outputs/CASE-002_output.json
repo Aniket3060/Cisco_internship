@@ -1,0 +1,19 @@
+{
+  "root_cause": "Mismatched native VLAN configuration on the trunk link between S1 and S2. S1 Gi0/1 is configured to use VLAN 99 as the native VLAN, while S2 Gi0/1 is using the default native VLAN 1, resulting in CDP warnings and potential traffic leaking between different broadcast domains.",
+  "osi_layer": "Layer 2",
+  "concept_tag": "VLAN_Trunking",
+  "confidence": "High",
+  "evidence": [
+    "%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on GigabitEthernet0/1 (99), with S2 GigabitEthernet0/1 (1).",
+    "S1 Gi0/1 Trunking Native Mode VLAN: 99",
+    "S2 Gi0/1 Trunking Native Mode VLAN: 1"
+  ],
+  "next_command": "show interfaces trunk",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/1",
+    "switchport trunk native vlan 99",
+    "end",
+    "write memory"
+  ]
+}

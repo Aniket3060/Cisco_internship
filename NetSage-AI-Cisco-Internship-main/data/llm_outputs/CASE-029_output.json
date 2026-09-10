@@ -1,0 +1,14 @@
+{
+  "root_cause": "Static NAT configuration error: The static NAT statement maps the incorrect inside local IP address (192.168.50.100) instead of the actual DMZ web server IP address (192.168.50.10) to the public IP address (209.165.201.5).",
+  "osi_layer": "Layer 3",
+  "concept_tag": "NAT_Static",
+  "confidence": "High",
+  "next_command": "show ip nat translations",
+  "fix_steps": [
+    "configure terminal",
+    "no ip nat inside source static 192.168.50.100 209.165.201.5",
+    "ip nat inside source static 192.168.50.10 209.165.201.5",
+    "end",
+    "clear ip nat translation *"
+  ]
+}

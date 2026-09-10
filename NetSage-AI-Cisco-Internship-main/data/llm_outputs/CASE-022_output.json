@@ -1,0 +1,20 @@
+{
+  "root_cause": "Extended Access Control List (ACL) 100 sequence 10 explicitly denies all IP traffic from the HR subnet (192.168.10.0/24) before sequence 20 can permit HTTP traffic to the Web Server (172.16.50.100), causing all HR traffic to be shadowed and dropped.",
+  "osi_layer": "Layer 3",
+  "concept_tag": "ACL_Extended",
+  "confidence": "High",
+  "evidence": [
+    "Line 10 in ACL 100 ('deny ip 192.168.10.0 0.0.0.255 any') has 245 matches and precedes the permit rule.",
+    "Interface Gi0/0 has 'ip access-group 100 in' applied, filtering incoming HR VLAN traffic upon ingress."
+  ],
+  "next_command": "show access-lists 100",
+  "fix_steps": [
+    "configure terminal",
+    "ip access-list extended 100",
+    "no 10",
+    "5 permit tcp 192.168.10.0 0.0.0.255 host 172.16.50.100 eq 80",
+    "6 permit tcp 192.168.10.0 0.0.0.255 host 172.16.50.100 eq 443",
+    "end",
+    "write memory"
+  ]
+}

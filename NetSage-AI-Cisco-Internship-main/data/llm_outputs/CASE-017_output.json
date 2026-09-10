@@ -1,0 +1,19 @@
+{
+  "root_cause": "The configured next-hop IP address (10.0.1.2) for the static route is unreachable because it does not belong to any directly connected subnet on R1, and there is no existing route to resolve this next-hop (recursive lookup failure).",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "Static_Routing",
+  "confidence": "High",
+  "evidence": [
+    "show running-config | include ip route shows the configured next-hop is 10.0.1.2",
+    "show ip route 10.0.1.2 returns '% Network not in table', confirming the next-hop is unreachable",
+    "R1's interfaces are configured with 192.168.10.1/24 and 10.0.0.1/30, meaning 10.0.1.2 is outside of its directly connected networks"
+  ],
+  "next_command": "show ip interface brief",
+  "fix_steps": [
+    "configure terminal",
+    "no ip route 172.16.1.0 255.255.255.0 10.0.1.2",
+    "ip route 172.16.1.0 255.255.255.0 10.0.0.2",
+    "end",
+    "write memory"
+  ]
+}

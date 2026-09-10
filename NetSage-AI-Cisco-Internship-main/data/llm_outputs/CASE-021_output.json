@@ -1,0 +1,16 @@
+{
+  "root_cause": "OSPF Hello and Dead timer mismatch between R1 and R2 on interface GigabitEthernet0/1 (R1 has Hello 5/Dead 20 while R2 has Hello 10/Dead 40).",
+  "osi_layer": "Layer 3",
+  "concept_tag": "OSPF_Adjacency",
+  "confidence": "High",
+  "evidence": "R1 'show ip ospf interface Gi0/1' displays Hello 5, Dead 20, whereas R2 shows Hello 10, Dead 40. OSPF requires identical Hello and Dead intervals to form an adjacency.",
+  "next_command": "debug ip ospf hello",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/1",
+    "ip ospf hello-interval 10",
+    "ip ospf dead-interval 40",
+    "end",
+    "write memory"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "root_cause": "The NAT configuration on router R1 is missing the 'overload' keyword on the 'ip nat inside source list' command. Without PAT (Port Address Translation / overload), the router performs 1-to-1 dynamic translation using the single WAN interface IP address, allowing only one host to translate at a time and causing all subsequent host connections to fail.",
+  "osi_layer": "Layer 3",
+  "concept_tag": "NAT_PAT",
+  "confidence": "High",
+  "next_command": "show ip nat statistics",
+  "fix_steps": [
+    "configure terminal",
+    "no ip nat inside source list 10 interface GigabitEthernet0/0/1",
+    "ip nat inside source list 10 interface GigabitEthernet0/0/1 overload",
+    "clear ip nat translation *",
+    "end"
+  ]
+}

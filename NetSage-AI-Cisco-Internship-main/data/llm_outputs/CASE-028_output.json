@@ -1,0 +1,19 @@
+{
+  "root_cause": "The LAN-facing interface (GigabitEthernet0/0) is missing the 'ip nat inside' configuration, preventing the router from identifying internal traffic to trigger Network Address Translation.",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "NAT_Interfaces",
+  "confidence": "High",
+  "evidence": [
+    "R1# show running-config interface Gi0/0 shows that 'ip nat inside' is missing.",
+    "R1# show running-config interface Gi0/1 contains 'ip nat outside'.",
+    "R1# show ip nat translations is completely empty despite active traffic."
+  ],
+  "next_command": "show ip nat statistics",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/0",
+    "ip nat inside",
+    "end",
+    "clear ip nat translation *"
+  ]
+}

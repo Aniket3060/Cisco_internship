@@ -1,0 +1,16 @@
+{
+  "root_cause": "The default gateway interface (GigabitEthernet0/0 on R1) is administratively shut down, preventing any Layer 2 or Layer 3 communication with the host PC.",
+  "osi_layer": "Layer 1",
+  "concept_tag": "Default_Gateway",
+  "confidence": "High",
+  "evidence": "The output of 'show ip interface brief' on R1 shows GigabitEthernet0/0 status as 'administratively down' and protocol as 'down'.",
+  "next_command": "show interfaces GigabitEthernet0/0",
+  "fix_steps": [
+    "enable",
+    "configure terminal",
+    "interface GigabitEthernet0/0",
+    "no shutdown",
+    "end",
+    "write memory"
+  ]
+}

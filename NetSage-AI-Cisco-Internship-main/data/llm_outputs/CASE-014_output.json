@@ -1,0 +1,15 @@
+{
+  "root_cause": "Access Control List (ACL) 101 on R1 is misconfigured to only permit TCP port 53 traffic, blocking standard DNS queries which utilize UDP port 53.",
+  "osi_layer": "Layer 4 (Transport)",
+  "concept_tag": "DNS_ACL",
+  "confidence": "High",
+  "evidence": "The output of 'show access-lists 101' shows 0 matches for the TCP permit rule ('10 permit tcp 10.0.1.0 0.0.0.255 any eq 53') and 450 matches for the deny rule ('20 deny ip any any'). This confirms that the UDP-based DNS queries from the clients are being blocked by the ACL.",
+  "next_command": "show running-config | section access-list 101",
+  "fix_steps": [
+    "configure terminal",
+    "ip access-list extended 101",
+    "15 permit udp 10.0.1.0 0.0.0.255 any eq 53",
+    "end",
+    "write memory"
+  ]
+}

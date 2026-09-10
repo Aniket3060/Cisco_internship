@@ -1,0 +1,17 @@
+{
+  "root_cause": "The switch port (Fa0/5) connecting PC3 is misconfigured and assigned to the default VLAN (VLAN 1) instead of the Accounting VLAN (VLAN 30).",
+  "osi_layer": "Layer 2 (Data Link)",
+  "concept_tag": "VLAN_Access",
+  "confidence": "High",
+  "evidence": "S1# show vlan brief shows Port Fa0/5 is assigned to VLAN 1 (default), while VLAN 30 (Accounting) exists with ports Fa0/10-12.",
+  "next_command": "show interface FastEthernet0/5 switchport",
+  "fix_steps": [
+    "enable",
+    "configure terminal",
+    "interface FastEthernet0/5",
+    "switchport mode access",
+    "switchport access vlan 30",
+    "end",
+    "write memory"
+  ]
+}

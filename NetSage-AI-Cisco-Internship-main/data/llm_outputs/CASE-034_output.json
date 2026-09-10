@@ -1,0 +1,15 @@
+{
+  "root_cause": "Subnet mask mismatch on Host B (configured with /26 instead of /24), causing Host B to evaluate Host A's IP address (192.168.1.10) as outside its local subnet (192.168.1.128/26) and attempt to route traffic through a default gateway instead of performing a direct Layer 2 ARP lookup.",
+  "osi_layer": "Layer 3 (Network Layer)",
+  "concept_tag": "IP_Subnetting",
+  "confidence": "High",
+  "evidence": "Host-B ipconfig shows IP address 192.168.1.150 with subnet mask 255.255.255.192 (/26), restricting its local network range to 192.168.1.128\u2013192.168.1.191 and excluding Host A (192.168.1.10).",
+  "next_command": "show ip interface brief",
+  "fix_steps": [
+    "Access Host B network settings or interface configuration.",
+    "Update Host B's subnet mask from 255.255.255.192 (/26) to 255.255.255.0 (/24).",
+    "If configured via a Cisco IOS DHCP server or interface, execute 'configure terminal', navigate to the DHCP pool or interface configuration, and update the subnet mask using 'network 192.168.1.0 255.255.255.0' or 'ip address 192.168.1.150 255.255.255.0'.",
+    "Verify the updated configuration on Host B.",
+    "Test Layer 3 connectivity by initiating a ping from Host B (192.168.1.150) to Host A (192.168.1.10)."
+  ]
+}

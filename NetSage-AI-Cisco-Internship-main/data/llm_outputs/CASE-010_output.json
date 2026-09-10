@@ -1,0 +1,15 @@
+{
+  "root_cause": "DHCP pool exhaustion caused by an excessively large excluded address range. Out of 254 possible addresses in the 192.168.20.0/24 subnet, 249 are excluded, leaving only 5 allocatable addresses which are currently all leased.",
+  "osi_layer": "Layer 7 (Application)",
+  "concept_tag": "DHCP",
+  "confidence": "High",
+  "evidence": "The command 'show ip dhcp pool LAN-POOL' reports 'Total addresses: 5, Leased addresses: 5, Excluded: 249', and 'show ip dhcp binding' confirms all 5 available leases are active, leaving 0 free addresses for new clients.",
+  "next_command": "show running-config | section dhcp",
+  "fix_steps": [
+    "configure terminal",
+    "no ip dhcp excluded-address 192.168.20.1 192.168.20.249",
+    "ip dhcp excluded-address 192.168.20.1 192.168.20.10",
+    "end",
+    "write memory"
+  ]
+}

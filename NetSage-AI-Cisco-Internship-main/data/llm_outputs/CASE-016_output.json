@@ -1,0 +1,14 @@
+{
+  "root_cause": "Missing static or default route on R1 to reach the HQ server subnet (10.20.0.0/16) via the ISP next-hop (198.51.100.2).",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "Static_Routing",
+  "confidence": "High",
+  "evidence": "The 'show ip route' output explicitly states 'Gateway of last resort is not set' and confirms that no route exists for the 10.20.0.0/16 destination subnet.",
+  "next_command": "show running-config | include ip route",
+  "fix_steps": [
+    "configure terminal",
+    "ip route 10.20.0.0 255.255.0.0 198.51.100.2",
+    "end",
+    "write memory"
+  ]
+}

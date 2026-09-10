@@ -1,0 +1,18 @@
+{
+  "root_cause": "Access Control List 105 applied inbound on interface Gi0/0 only permits traffic destined to host 10.0.0.50 on TCP port 443. Return traffic originating from the web server (source IP 10.0.0.50, source port TCP 443) back to clients is blocked by the implicit deny rule at the end of the ACL.",
+  "osi_layer": "Layer 4",
+  "concept_tag": "ACL_Direction",
+  "confidence": "High",
+  "evidence": [
+    "show access-lists 105: '10 permit tcp any host 10.0.0.50 eq 443'",
+    "show running-config interface Gi0/0: 'ip access-group 105 in'"
+  ],
+  "next_command": "show access-lists 105",
+  "fix_steps": [
+    "configure terminal",
+    "ip access-list extended 105",
+    "20 permit tcp host 10.0.0.50 eq 443 192.168.1.0 0.0.0.255 established",
+    "end",
+    "write memory"
+  ]
+}

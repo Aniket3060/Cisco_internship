@@ -1,0 +1,21 @@
+{
+  "root_cause": "NAT order of operations conflict. Inside-to-Outside NAT translates the source IP of 10.10.0.0/16 traffic to the router's public IP address before outbound ACL 110 is evaluated on interface Gi0/1. Because the source IP is already translated, it fails to match line 10 (permit ip 10.10.0.0 0.0.255.255 any) and hits line 20 (deny ip any any).",
+  "osi_layer": "Layer 3",
+  "concept_tag": "ACL_Wildcard_Mask",
+  "confidence": "High",
+  "evidence": [
+    "show access-lists 110 displays 0 matches on '10 permit ip 10.10.0.0 0.0.255.255 any' and 132 matches on '20 deny ip any any'",
+    "show running-config interface Gi0/1 confirms ACL 110 is applied outbound ('ip access-group 110 out') on the WAN interface where NAT translation has already occurred"
+  ],
+  "next_command": "show ip nat translations",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/1",
+    "no ip access-group 110 out",
+    "exit",
+    "interface GigabitEthernet0/0",
+    "ip access-group 110 in",
+    "end",
+    "clear access-list counters 110"
+  ]
+}

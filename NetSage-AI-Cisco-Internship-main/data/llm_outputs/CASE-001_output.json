@@ -1,0 +1,16 @@
+{
+  "root_cause": "VLAN 10 is not allowed on the trunk port GigabitEthernet0/1 on Switch-2 (S2).",
+  "osi_layer": "Layer 2",
+  "concept_tag": "VLAN_Trunking",
+  "confidence": "High",
+  "evidence": "S2# show interfaces trunk shows Gi0/1 allowed VLANs as '20,30', which excludes VLAN 10, preventing PC1 and PC2 from communicating across the trunk.",
+  "next_command": "show running-config interface GigabitEthernet0/1",
+  "fix_steps": [
+    "enable",
+    "configure terminal",
+    "interface GigabitEthernet0/1",
+    "switchport trunk allowed vlan add 10",
+    "end",
+    "write memory"
+  ]
+}

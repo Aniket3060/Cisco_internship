@@ -1,0 +1,14 @@
+{
+  "root_cause": "R2 (Standby) has preempt enabled and a higher priority (105) than R1 (Active, priority 90), but fails to preempt because R1 is not receiving R2's HSRP Coup messages, or R2 is not receiving R1's degraded priority hellos due to a unidirectional communication failure (such as an ACL blocking UDP port 1985 or a Layer 2 switchport/VLAN forwarding issue). Alternatively, R2 has a configured preempt delay timer that has not yet expired.",
+  "osi_layer": "Layer 3",
+  "concept_tag": "FHRP_HSRP",
+  "confidence": "High",
+  "evidence": "R1# show standby brief shows Grp 1 Pri 90 State Active (Preempt disabled) while R2# show standby brief shows Grp 1 Pri 105 State Standby (Preempt enabled). Under normal operation with preempt enabled, R2 should have immediately taken over the Active state since 105 > 90.",
+  "next_command": "show standby interface <interface-id>",
+  "fix_steps": [
+    "Configure preempt on R1 to ensure symmetric preemption behavior if desired: 'interface <interface-id>', 'standby 1 preempt'.",
+    "Verify and adjust the preempt delay timer on R2 if it is preventing immediate takeover: 'interface <interface-id>', 'standby 1 preempt delay minimum 0'.",
+    "Check for access-lists on both R1 and R2 interfaces that might be blocking HSRP traffic (UDP port 1985): 'show running-config interface <interface-id>'.",
+    "Ensure both routers can bi-directionally communicate via multicast (224.0.0.2 for HSRPv1 or 224.0.0.102 for HSRPv2) by verifying Layer 2 switch configurations and VLAN trunking."
+  ]
+}

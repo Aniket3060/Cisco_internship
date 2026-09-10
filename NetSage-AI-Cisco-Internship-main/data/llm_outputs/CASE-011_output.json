@@ -1,0 +1,15 @@
+{
+  "root_cause": "The DHCP server allocated an IP address (192.168.1.100) to PC1 that was already statically assigned to network printer PR1 because the IP address was not configured in the DHCP excluded-address list on the router.",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "DHCP_IP_Conflict",
+  "confidence": "High",
+  "evidence": "The 'show ip dhcp conflict' command on R1 confirms that 192.168.1.100 was flagged as a conflict via Ping detection, which aligns with the host notes stating PR1 has a static IP of 192.168.1.100 and PC1 received the same address via DHCP.",
+  "next_command": "show running-config | section ip dhcp",
+  "fix_steps": [
+    "Enter global configuration mode: 'configure terminal'",
+    "Exclude the static IP address of the printer from the DHCP pool: 'ip dhcp excluded-address 192.168.1.100'",
+    "Exit global configuration mode: 'end'",
+    "Clear the conflict from the DHCP database to allow the address to be properly tracked: 'clear ip dhcp conflict 192.168.1.100'",
+    "On PC1, release and renew the IP address to obtain a non-conflicting lease: 'ipconfig /release' followed by 'ipconfig /renew'"
+  ]
+}

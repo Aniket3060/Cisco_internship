@@ -1,0 +1,15 @@
+{
+  "root_cause": "The R2 LAN subnet (192.168.20.0/24) is not being advertised to R1 because the network statement for this subnet is missing under the OSPF router configuration on R2.",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "OSPF_Routing",
+  "confidence": "High",
+  "evidence": "The output of 'show running-config | section router ospf' on R2 shows only 'network 10.1.1.0 0.0.0.3 area 0' is configured, confirming that the 192.168.20.0/24 network is not enabled for OSPF.",
+  "next_command": "show ip ospf interface brief",
+  "fix_steps": [
+    "configure terminal",
+    "router ospf 1",
+    "network 192.168.20.0 0.0.0.255 area 0",
+    "end",
+    "write memory"
+  ]
+}

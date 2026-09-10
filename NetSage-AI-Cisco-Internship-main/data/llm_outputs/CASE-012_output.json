@@ -1,0 +1,15 @@
+{
+  "root_cause": "DHCP snooping is enabled on VLAN 10, but interface Gi0/1 (connected to the DHCP server) is configured as untrusted ('Trusted: No'). Switches drop DHCP server response messages (such as DHCP OFFERS and ACKs) received on untrusted ports.",
+  "osi_layer": "Layer 2",
+  "concept_tag": "DHCP_Snooping",
+  "confidence": "High",
+  "evidence": "'show ip dhcp snooping | section Gi0/1' reveals that interface Gi0/1 has 'Trusted: No', causing DHCP Offers from the DHCP server to be dropped.",
+  "next_command": "show ip dhcp snooping statistics",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/1",
+    "ip dhcp snooping trust",
+    "end",
+    "write memory"
+  ]
+}

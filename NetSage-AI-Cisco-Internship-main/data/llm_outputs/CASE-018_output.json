@@ -1,0 +1,19 @@
+{
+  "root_cause": "MTU mismatch between R1 Gi0/0 (1500 bytes) and R2 Gi0/0 (1400 bytes), causing OSPF Database Description (DBD) packets to be discarded and preventing the neighbor adjacency from progressing past the EXSTART/EXCHANGE state.",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "OSPF_Adjacency",
+  "confidence": "High",
+  "evidence": [
+    "R1 Gi0/0 MTU is configured as 1500 bytes.",
+    "R2 Gi0/0 MTU is configured as 1400 bytes.",
+    "R1 show ip ospf neighbor output shows neighbor 2.2.2.2 stuck in EXSTART state."
+  ],
+  "next_command": "show ip ospf interface Gi0/0",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/0",
+    "ip mtu 1500",
+    "end",
+    "clear ip ospf process"
+  ]
+}

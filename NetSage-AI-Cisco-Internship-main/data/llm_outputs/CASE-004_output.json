@@ -1,0 +1,16 @@
+{
+  "root_cause": "VLAN encapsulation mismatch on R1 subinterface GigabitEthernet0/0.10. It is misconfigured with 'encapsulation dot1Q 20' instead of 'encapsulation dot1Q 10', causing an encapsulation conflict with subinterface GigabitEthernet0/0.20 and preventing traffic from VLAN 10 from being routed.",
+  "osi_layer": "Layer 2",
+  "concept_tag": "Router_On_A_Stick",
+  "confidence": "High",
+  "evidence": "The running configuration shows both Gi0/0.10 and Gi0/0.20 are configured with 'encapsulation dot1Q 20', meaning VLAN 10 traffic is not being processed by the router on the correct subinterface.",
+  "next_command": "show vlans",
+  "fix_steps": [
+    "configure terminal",
+    "interface GigabitEthernet0/0.10",
+    "encapsulation dot1Q 10",
+    "ip address 192.168.10.1 255.255.255.0",
+    "end",
+    "write memory"
+  ]
+}

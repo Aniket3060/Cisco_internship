@@ -1,0 +1,163 @@
+{
+  "_metadata": {
+    "dataset_type": "SAMPLE_TEST_DATA",
+    "description": "Demonstration test topology containing intentional rule anomalies to verify deterministic rule checker capabilities. THIS IS SAMPLE TEST DATA, NOT FINAL SUBMISSION DATA.",
+    "lab_scenario": "Branch Office Multi-VLAN Inter-Network"
+  },
+  "devices": [
+    {
+      "name": "R1-Edge",
+      "type": "router",
+      "interfaces": [
+        {
+          "name": "GigabitEthernet0/0.10",
+          "ip_address": "192.168.10.1/24",
+          "status": "up",
+          "protocol": "up",
+          "encapsulation": "dot1Q 10"
+        },
+        {
+          "name": "GigabitEthernet0/0.20",
+          "ip_address": "192.168.20.1/24",
+          "status": "up",
+          "protocol": "up",
+          "encapsulation": "dot1Q 20"
+        },
+        {
+          "name": "GigabitEthernet0/1",
+          "ip_address": "203.0.113.1/30",
+          "status": "administratively down",
+          "protocol": "down",
+          "description": "WAN Interface to ISP"
+        }
+      ],
+      "static_routes": [
+        {
+          "destination": "10.50.0.0/16",
+          "next_hop": "172.16.99.1"
+        }
+      ],
+      "access_lists": [
+        {
+          "name": "ACL_INBOUND_FILTER",
+          "type": "extended",
+          "rules": [
+            {
+              "sequence": 10,
+              "action": "deny",
+              "source": "any",
+              "destination": "any"
+            },
+            {
+              "sequence": 20,
+              "action": "permit",
+              "protocol": "tcp",
+              "source": "192.168.10.0/24",
+              "destination": "host 10.50.1.10",
+              "port": 80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SW-Core1",
+      "type": "switch",
+      "vlans": [1, 10, 20, 99],
+      "interfaces": [
+        {
+          "name": "FastEthernet0/1",
+          "mode": "access",
+          "access_vlan": 10,
+          "status": "up",
+          "protocol": "up"
+        },
+        {
+          "name": "FastEthernet0/2",
+          "mode": "access",
+          "access_vlan": 20,
+          "status": "up",
+          "protocol": "up"
+        },
+        {
+          "name": "FastEthernet0/3",
+          "mode": "access",
+          "access_vlan": 50,
+          "status": "up",
+          "protocol": "up"
+        },
+        {
+          "name": "GigabitEthernet0/1",
+          "mode": "trunk",
+          "native_vlan": 99,
+          "allowed_vlans": [10, 20, 99],
+          "status": "up",
+          "protocol": "up"
+        }
+      ]
+    },
+    {
+      "name": "SW-Access2",
+      "type": "switch",
+      "vlans": [1, 10, 20],
+      "interfaces": [
+        {
+          "name": "GigabitEthernet0/1",
+          "mode": "trunk",
+          "native_vlan": 1,
+          "allowed_vlans": [10, 20],
+          "status": "up",
+          "protocol": "up"
+        }
+      ]
+    }
+  ],
+  "hosts": [
+    {
+      "name": "PC-Sales-1",
+      "ip_address": "192.168.10.50",
+      "subnet_mask": "255.255.255.0",
+      "default_gateway": "192.168.10.1",
+      "vlan": 10,
+      "connected_switch": "SW-Core1",
+      "connected_port": "FastEthernet0/1"
+    },
+    {
+      "name": "PC-Sales-2",
+      "ip_address": "192.168.10.50",
+      "subnet_mask": "255.255.255.0",
+      "default_gateway": "192.168.10.1",
+      "vlan": 10,
+      "connected_switch": "SW-Core1",
+      "connected_port": "FastEthernet0/2"
+    },
+    {
+      "name": "PC-Marketing-1",
+      "ip_address": "192.168.20.15",
+      "subnet_mask": "255.255.255.0",
+      "default_gateway": "192.168.99.254",
+      "vlan": 20,
+      "connected_switch": "SW-Core1",
+      "connected_port": "FastEthernet0/3"
+    },
+    {
+      "name": "PC-Test-Broadcast",
+      "ip_address": "192.168.20.255",
+      "subnet_mask": "255.255.255.0",
+      "default_gateway": "192.168.20.1",
+      "vlan": 20
+    }
+  ],
+  "links": [
+    {
+      "src_device": "SW-Core1",
+      "src_port": "GigabitEthernet0/1",
+      "src_native_vlan": 99,
+      "src_allowed_vlans": [10, 20, 99],
+      "dst_device": "SW-Access2",
+      "dst_port": "GigabitEthernet0/1",
+      "dst_native_vlan": 1,
+      "dst_allowed_vlans": [10, 20]
+    }
+  ]
+}

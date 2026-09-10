@@ -1,0 +1,18 @@
+{
+  "root_cause": "Dynamic NAT/PAT configuration references Access Control List (ACL) 1, which is missing or empty. Because no traffic matches an ACL rule, NAT translations are not created, preventing internal LAN traffic from being translated and routed to the Internet.",
+  "osi_layer": "Layer 3 - Network Layer",
+  "concept_tag": "NAT_PAT",
+  "confidence": "High",
+  "next_command": "show running-config | section interface",
+  "fix_steps": [
+    "configure terminal",
+    "access-list 1 permit 192.168.1.0 0.0.0.255",
+    "interface Serial0/1/0",
+    "ip nat outside",
+    "exit",
+    "interface <lan_interface>",
+    "ip nat inside",
+    "end",
+    "write memory"
+  ]
+}

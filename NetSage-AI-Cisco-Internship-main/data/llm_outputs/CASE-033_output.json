@@ -1,0 +1,20 @@
+{
+  "root_cause": "Layer 2 Spanning Tree loop caused by missing STP protection mechanisms (such as BPDU Guard or Loop Guard) on redundant links, leading to an unblocked loop and a broadcast storm.",
+  "osi_layer": "Layer 2",
+  "concept_tag": "Spanning_Tree",
+  "confidence": "High",
+  "evidence": [
+    "S1 show spanning-tree summary indicates BPDU Guard is disabled.",
+    "S2 interfaces Gi0/1 and Gi0/2 show rapid green flashing indicating high broadcast/multicast traffic.",
+    "S2 CPU utilization reached 98% due to broadcast storm handling."
+  ],
+  "next_command": "show spanning-tree detail",
+  "fix_steps": [
+    "Immediately shut down one of the redundant uplink interfaces (e.g., GigabitEthernet0/2 on S2) using 'interface Gi0/2' followed by 'shutdown' to break the loop.",
+    "Verify that switch CPU utilization returns to normal operating parameters.",
+    "Global configuration: Enable STP Loop Guard globally using 'spanning-tree loopguard default'.",
+    "Enable BPDU Guard on all PortFast-enabled access ports using 'spanning-tree portfast bpduguard default'.",
+    "Explicitly set primary and secondary root bridges for PVST+ using 'spanning-tree vlan <vlan-id> root primary' on the designated core switch.",
+    "Re-enable the shut down uplink interface using 'no shutdown' and confirm via 'show spanning-tree' that the redundant path properly transitions to the Blocking state."
+  ]
+}

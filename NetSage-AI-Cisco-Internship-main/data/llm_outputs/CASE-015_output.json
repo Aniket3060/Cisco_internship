@@ -1,0 +1,17 @@
+{
+  "root_cause": "DNS resolution is failing because no DNS name servers are configured on the router (missing 'ip name-server' configuration), causing the router to fall back to a broadcast address (255.255.255.255) for name resolution.",
+  "osi_layer": "Layer 7 (Application)",
+  "concept_tag": "DNS_Config",
+  "confidence": "High",
+  "evidence": "The command 'show running-config | include name-server' returned no output, confirming the absence of a configured DNS server. Additionally, the ping output shows the router attempting to query 'domain server (255.255.255.255)'.",
+  "next_command": "show hosts",
+  "fix_steps": [
+    "enable",
+    "configure terminal",
+    "ip domain-lookup",
+    "ip name-server 10.1.1.10",
+    "ip domain-name lab.local",
+    "end",
+    "write memory"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "root_cause": "The workstation (PC-A) is configured with an incorrect default gateway IP address (172.16.10.254), whereas the actual gateway IP address configured on the router's interface (Gi0/0/0) is 172.16.10.1.",
+  "osi_layer": "Layer 3 (Network)",
+  "concept_tag": "Default_Gateway",
+  "confidence": "High",
+  "evidence": [
+    "PC-A ipconfig shows Default Gateway: 172.16.10.254",
+    "R1 show ip interface brief shows Gi0/0/0 configured with 172.16.10.1",
+    "Ping from PC-A to 172.16.10.254 times out"
+  ],
+  "next_command": "ping 172.16.10.1",
+  "fix_steps": [
+    "enable",
+    "configure terminal",
+    "interface GigabitEthernet0/0/0",
+    "ip address 172.16.10.254 255.255.255.0",
+    "no shutdown",
+    "end",
+    "write memory"
+  ]
+}
